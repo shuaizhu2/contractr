@@ -1,9 +1,28 @@
 <head>
-  <title>hackucsc</title>
+  <title>contractr</title>
+  <!--Import Google Icon Font-->
+      <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <!-- Compiled and minified CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<link href='https://fonts.googleapis.com/css?family=Roboto+Condensed:400,300italic' rel='stylesheet' type='text/css'>
+  <!-- Compiled and minified JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
 </head>
+<!--<a href="#" class="brand-logo" style="font-family: 'Roboto Condensed', sans-serif;">contractr</a>-->
 
 <body>
-  <h1>HackUCSC 2016</h1>
+  <nav>
+   <div class="nav-wrapper">
+     <form>
+       <div class="input-field">
+         <input id="lookingFor" type="search" placeholder="I'm Looking For..." required>
+         <label for="search"><i class="material-icons">search</i></label>
+         <i class="material-icons">close</i>
+       </div>
+     </form>
+   </div>
+ </nav>
   {{> home}}
   {{> map}}
 </body>
@@ -11,13 +30,12 @@
 <template name="home">
 	<!-- class="btn btn-default" -->
 	<!-- <button id="createJobs" >Create Jobs</button> -->
-	<input id="lookingFor" placeholder="I'm Looking For...">
 	{{#each jobs}}
-		<div id={{id}} class="">{{category}}</div>
+		<a id={{id}} class="waves-effect waves-light btn-large">{{category}}</a>
 	{{/each}}
 </template>
 
-<template name="map">  
+<template name="map">
   <div class="map-container">
     {{#unless geolocationError}}
       {{> googleMap name="map" options=mapOptions}}
@@ -25,4 +43,4 @@
       Geolocation failed: {{geolocationError}}
     {{/unless}}
   </div>
-</template>  
+</template>
