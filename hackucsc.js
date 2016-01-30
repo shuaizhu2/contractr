@@ -20,14 +20,9 @@ if (Meteor.isClient) {
   Template.home.helpers({
     jobs: function(){
       var query = Session.get('lF');
-      console.log(query);
-      //var selector;
       if (query){
         var re = new RegExp(query, 'i');
         console.log(re);
-        //var re = "/" + query + "/";
-        //selector.category = re;
-        //db.users.findOne({"username" : {$regex : ".*son.*"}});
         var j = Jobs.find({'category': {$regex : re}});
       } else {
         console.log("miss");
@@ -37,6 +32,7 @@ if (Meteor.isClient) {
       for (var i=0; i<j.length; i++) {
         j[i].id = "Job" + i;
       }
+      console.log(j);
       return j;
     }
   });
@@ -48,15 +44,28 @@ if (Meteor.isClient) {
       Meteor.call("addJob", "Moving");
       Meteor.call("addJob", "Cleaning");
     },
+    "click #openModal": function(){
+      console.log("trigger");
+      $('#modal1').openModal();
+    },
     "submit #lookingFor": function(e){
       e.preventDefault();
       console.log("submit");
     },
     "keyup #lookingFor": function(){
-      console.log($('#lookingFor').val());
-      return Session.set('lF', $('#lookingFor').val());
+      var lf = $('#lookingFor').val();
+      console.log(lf);
+      return Session.set('lF', lf);
     }
   });
+
+  Template.home.rendered = function(){
+    console.log("Home Rendered");
+    $('#openModal').on('click', function() {
+      console.log("trigger");
+      $('#modal1').openModal();
+    });
+  };
 
   Template.map.helpers({  
     geolocationError: function() {
@@ -132,7 +141,7 @@ Meteor.methods({
 
 if (Meteor.isServer) {
   Meteor.startup(function () {
-    Meteor.publish("jobs", function () {
+    /*Meteor.publish("jobs", function () {
       return Jobs.find({
       });
     });
@@ -141,6 +150,6 @@ if (Meteor.isServer) {
       return Users.find({
       });
     });
-    // code to run on server at startup
+    // code to run on server at startup*/
   });
 }

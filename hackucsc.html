@@ -5,7 +5,7 @@
   <!-- Compiled and minified CSS -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<link href='https://fonts.googleapis.com/css?family=Roboto+Condensed:400,300italic' rel='stylesheet' type='text/css'>
+	<link href='https://fonts.googleapis.com/css?family=Roboto+Condensed:400,300italic' rel='stylesheet' type='text/css'>
   <!-- Compiled and minified JavaScript -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
 </head>
@@ -23,12 +23,25 @@
      </form>
    </div>
  </nav>
+  <!-- Modal Trigger  href="#modal1" -->
+  <a id="openModal" class="waves-effect waves-light btn modal-trigger">Modal</a>
+
+  <!-- Modal Structure -->
+  <div id="modal1" class="modal">
+    <div class="modal-content">
+      <h4>Modal Header</h4>
+      <p>A bunch of text</p>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+    </div>
+  </div>
+
   {{> home}}
   {{> map}}
 </body>
 
 <template name="home">
-	<!-- class="btn btn-default" -->
 	<!-- <button id="createJobs" >Create Jobs</button> -->
 	{{#each jobs}}
 		<a id={{id}} class="waves-effect waves-light btn-large">{{category}}</a>
