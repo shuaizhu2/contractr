@@ -1,0 +1,28 @@
+<head>
+  <title>hackucsc</title>
+</head>
+
+<body>
+  <h1>HackUCSC 2016</h1>
+  {{> home}}
+  {{> map}}
+</body>
+
+<template name="home">
+	<!-- class="btn btn-default" -->
+	<!-- <button id="createJobs" >Create Jobs</button> -->
+	<input id="lookingFor" placeholder="I'm Looking For...">
+	{{#each jobs}}
+		<div id={{id}} class="">{{category}}</div>
+	{{/each}}
+</template>
+
+<template name="map">  
+  <div class="map-container">
+    {{#unless geolocationError}}
+      {{> googleMap name="map" options=mapOptions}}
+    {{else}}
+      Geolocation failed: {{geolocationError}}
+    {{/unless}}
+  </div>
+</template>  
