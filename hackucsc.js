@@ -69,7 +69,24 @@ if (Meteor.isClient) {
       map: map,
       title: 'Hello World!'
       });*/
-    }
+      if (i == "Plumbing") {
+        $("#cName").text("Matt Roberts");
+        $("#cPrice").text("$55 / Hour");
+        $("#cIcon").attr("src", "https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/6/005/043/37f/075a63b.jpg");
+      } else {
+        $("#cName").text("Julie Shirley");
+        $("#cPrice").text("$30 / Hour");
+        $("#cIcon").attr("src", "https://media.licdn.com/mpr/mpr/shrink_200_200/AAEAAQAAAAAAAAQhAAAAJGFiYzNlNTM2LWUyZTgtNDY0My05NmE2LTUzYTA1MTdhZTUzYw.jpg");
+      }
+
+          //https://media.licdn.com/media/AAEAAQAAAAAAAANMAAAAJDU2ZDE1MzQwLWE3OWUtNDk2MC05NjQ2LTQ5YjA4Y2RmMDA4Zg.jpg
+      
+      setTimeout(function(){
+          //do what you need here
+          console.log("hey");
+          google.maps.event.trigger(GoogleMaps.maps.map.instance, "resize");
+        }, 500);
+      }
   })
 
   Template.homeA.rendered = function(){
@@ -93,6 +110,8 @@ if (Meteor.isClient) {
     }
   });
 
+  var markers = [];
+
   //Template.map.onCreated(function() { 
   Template.map.rendered = function() {
     console.log("Map Rendered");
@@ -104,11 +123,12 @@ if (Meteor.isClient) {
       //gMap.event.trigger(map, "resize");
       gMap.panTo(latLng);
 
-      var cLat = ["36.989856","36.994004","36.9923139","36.999589","36.999657","36.982844"];
-      var cLon = ["-122.065964","-122.065835","-122.05","-122.055332","-122.062950","-122.060868"];
-      var pl = [0,2,3];
+      //"36.999657" "-122.062950"
+      var cLat = ["36.989856","36.994004","36.9923139","36.999589","36.982844"];
+      var cLon = ["-122.065964","-122.065835","-122.05","-122.055332","-122.060868"];
+      /*var pl = [0,2,3];
       var cl = [1,4,5];
-      var test = [0,1,2,3,4,5];
+      var test = [0,1,2,3,4,5];*/
 
       var image2 = {
         url: 'http://i.imgur.com/irtXqys.png', // url
@@ -117,45 +137,37 @@ if (Meteor.isClient) {
         anchor: new google.maps.Point(0,0) // anchor
       };
 
-      var image1 = {
-        url: 'http://icons.iconseeker.com/png/fullsize/fruity-apples/seablue-512.png', // url
-        scaledSize: new google.maps.Size(50, 50), // scaled size
-        origin: new google.maps.Point(0,0), // origin
-        anchor: new google.maps.Point(0,0) // anchor
-      };
-
       var home = new google.maps.Marker({
         position: new google.maps.LatLng(latLng.lat, latLng.lng),
-        map: map.instance,
-        image: image1
+        map: map.instance
       });
 
-      var markers = [];
-
       $(".openModal").click(function(e){
-
         for(i=0; i<markers.length; i++){
             markers[i].setMap(null);
         }
         console.log(e.toElement.id);
         var tag = e.toElement.id;
 
-        if (tag == "Plumbing") {
-          var lo = pl;
-        } else {
-          var lo = cl;
-        }
-
-        for (var i=0; i<3; i++){
+        var i = Math.floor((Math.random() * 4));
+        console.log(i);
+        //for (var i=0; i<3; i++){
             //var lo = test;
+          console.log(image2);
           var marker = new google.maps.Marker({
-            position: new google.maps.LatLng(cLat[lo[i]], cLon[lo[i]]),
+            position: new google.maps.LatLng(cLat[i], cLon[i]),
             map: map.instance,
-            image: image2
+            icon: image2
           });
           markers.push(marker);
-        }
-      });
+        //}
+
+        /*marker.addListener('click', function() {
+          console.log("hey");
+          
+        });*/
+
+      }); 
     });
   };
 }
