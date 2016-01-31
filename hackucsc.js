@@ -25,7 +25,7 @@ if (Meteor.isClient) {
       } else {
         var j = Jobs.find({}).fetch();
       }
-      
+
       /*for (var i=0; i<j.length; i++) {
         j[i].id = "Job" + i;
       }*/
@@ -62,13 +62,19 @@ if (Meteor.isClient) {
       Meteor.call("addJob", "Gardener");
       Meteor.call("addJob", "Handyman");
       Meteor.call("addJob", "Locksmith");
+      Meteor.call("addJob", "Petsitter");
+      Meteor.call("addJob", "Landscaper");
+      Meteor.call("addJob", "Designer");
+      Meteor.call("addJob", "Engineer");
+      Meteor.call("addJob", "Machinist");
+
     },
     "click .openModal": function(e){
       var i = e.toElement.id;
       //console.log("trigger");
       $('#modal1').openModal();
       //Jobs.find({});
-      $("#jobHeader").text(i);  
+      $("#jobHeader").text(i);
 
       //var map = Session.get('map');
       /*var myLatLng = {lat: -37.0005, lng: -122.059};
@@ -92,7 +98,7 @@ if (Meteor.isClient) {
       }
 
           //https://media.licdn.com/media/AAEAAQAAAAAAAANMAAAAJDU2ZDE1MzQwLWE3OWUtNDk2MC05NjQ2LTQ5YjA4Y2RmMDA4Zg.jpg
-      
+
       setTimeout(function(){
           //do what you need here
           console.log("hey");
@@ -110,7 +116,7 @@ if (Meteor.isClient) {
     });
   };
 
-  Template.map.helpers({  
+  Template.map.helpers({
     mapOptions: function() {
       var latLng = Geolocation.latLng();
       // Initialize the map once we have the latLng.
@@ -125,7 +131,7 @@ if (Meteor.isClient) {
 
   var markers = [];
 
-  //Template.map.onCreated(function() { 
+  //Template.map.onCreated(function() {
   Template.map.rendered = function() {
     console.log("Map Rendered");
     GoogleMaps.ready('map', function(map) {
@@ -176,10 +182,10 @@ if (Meteor.isClient) {
 
         /*marker.addListener('click', function() {
           console.log("hey");
-          
+
         });*/
 
-      }); 
+      });
     });
   };
 }
@@ -204,7 +210,7 @@ Meteor.methods({
     Users.insert({
       name: name,
       type: type,
-      location: 
+      location:
     });
   },*/
   //AddContractor: function()
