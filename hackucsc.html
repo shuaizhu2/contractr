@@ -8,17 +8,33 @@
 	<link href='https://fonts.googleapis.com/css?family=Roboto+Condensed:400,300italic' rel='stylesheet' type='text/css'>
   <!-- Compiled and minified JavaScript -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
   <!--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD-B92NveQZnihqVDE9X06bme4gVXMkp28&callback=initMap"
     async defer></script>-->
 </head>
 <!--<a href="#" class="brand-logo" style="font-family: 'Roboto Condensed', sans-serif;">contractr</a>-->
 
+<template name="user">
+	<body>
+	  {{> nav}}
+	  {{> homeA}}
+	  <!-- {{> map}} -->
+	</body>
+</template>
 
-<body>
-  {{> nav}}
-  {{> homeA}}
-  <!-- {{> map}} -->
-</body>
+<template name="contractor">
+	<div id="modal2" class="modal">
+	    <div class="modal-content">
+	      <h4 id="jobHeader">Modal Header</h4>
+	      <img id="cIcon" class="circle" style="width:80px;height:80px;">
+	      <p> Kitchen Pipes are leaking.</p>
+	    </div>
+	    <div class="modal-footer">
+	      <a href="#!" id="cAgree" class="modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+	    </div>
+	</div>
+	{{> map}}
+</template>
 
 <template name="nav">
   <nav>
@@ -32,17 +48,18 @@
      </form>
    </div>
  </nav>
- <!-- Modal Trigger  href="#	" -->
-  <!--<a id="openModal" class="waves-effect waves-light btn modal-trigger">Modal</a>-->
-
   <!-- Modal Structure -->
-  <div id="modal1" class="modal">
+  <div style="background-color:#3fb0ac" id="modal1" class="modal">
     <div class="modal-content">
-      <h4 id="jobHeader">Modal Header</h4>
-      <p>Job Summary:</p>
-      <span id="cName"></span>
-      <img id="cIcon" class="circle" style="width:80px;height:80px;">
-      <span id="cPrice"></span>
+      <h4 style="color:white;" id="jobHeader">Modal Header</h4>
+      <p style="color:white;">Job Summary:</p>
+
+      <div style="margin: auto;text-align:center;">
+      	<span style="color:white;" id="cName"></span>
+      	<img id="cIcon" class="circle" style="width:80px;height:80px;">
+      	<span style="color:white;" id="cPrice"></span>
+      </div>
+
       {{> map}}
     </div>
     <div class="modal-footer">
@@ -52,10 +69,13 @@
 </template>
 
 <template name="homeA">
-	<button id="createJobs" >Create Jobs</button>
-	{{#each jobs}}
-		<a id={{category}} class="waves-effect waves-light btn-large openModal">{{category}}</a>
-	{{/each}}
+	<div style="margin: auto;text-align:center; padding-left:50px;padding-right:50px;">
+		<p style="padding-top: 50px; padding-bottom:75px;font-size:200%;font-family: 'Open Sans', sans-serif; color:white;">Use the search bar above or the buttons below to find an available contractor in your area</p>
+		{{#each jobs}}
+			<a id={{category}} style="margin:5px;" class="waves-effect waves-light btn-large openModal"><i class="material-icons left">add</i>{{category}}</a>
+		{{/each}}
+	</div>
+	<h1 style="position:fixed;left:0px;bottom:100px;height:30px;width:100%;font-family: HelveticaNeue-Bold; color:white; padding-left:100px">contractr.</h1>
 </template>
 
 <template name="map">

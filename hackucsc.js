@@ -1,3 +1,13 @@
+Router.map(function() {
+  this.route('user', {
+    path: '/'
+  });
+
+  this.route('contractor', {
+    path: '/contractor'
+  });
+});
+
 Jobs = new Mongo.Collection('jobs');
 Users = new Mongo.Collection('users');
 
@@ -15,6 +25,15 @@ if (Meteor.isClient) {
 
   // counter starts at 0
   Session.setDefault('counter', 0);
+
+  Template.contractor.rendered = function(){
+    console.log("Contractor Page Rendered");
+    $(".map-container").css('height', '500px');
+
+    $('#cAgree').on('click', function() {
+      Materialize.toast("You have accepted the job.", 4000);
+    });
+  }
 
   Template.homeA.helpers({
     jobs: function(){
@@ -70,13 +89,6 @@ if (Meteor.isClient) {
       //Jobs.find({});
       $("#jobHeader").text(i);  
 
-      //var map = Session.get('map');
-      /*var myLatLng = {lat: -37.0005, lng: -122.059};
-      var marker = new google.maps.Marker({
-      position: myLatLng,
-      map: map,
-      title: 'Hello World!'
-      });*/
       if (i == "Plumbing") {
         $("#cName").text("Matt Roberts");
         $("#cPrice").text("$55 / Hour");
@@ -137,11 +149,9 @@ if (Meteor.isClient) {
       gMap.panTo(latLng);
 
       //"36.999657" "-122.062950"
-      var cLat = ["36.989856","36.994004","36.9923139","36.999589","36.982844"];
-      var cLon = ["-122.065964","-122.065835","-122.05","-122.055332","-122.060868"];
-      /*var pl = [0,2,3];
-      var cl = [1,4,5];
-      var test = [0,1,2,3,4,5];*/
+      var cLat = ["36.982844","36.989856","36.994004","36.9923139","36.999589"];
+      var cLon = ["-122.060868","-122.065964","-122.065835","-122.05","-122.055332"];
+      var tl = [0,1,2,3,4];
 
       var image2 = {
         url: 'http://i.imgur.com/irtXqys.png', // url
@@ -178,8 +188,29 @@ if (Meteor.isClient) {
           console.log("hey");
           
         });*/
-
       }); 
+
+      var routeName = Iron.Location.get().path;
+      var url = routeName.substring(1);
+      console.log(url);
+      if (url == "contractor") {
+        for (var i=0; i<5; i++){
+          var marker = new google.maps.Marker({
+            position: new google.maps.LatLng(cLat[tl[i]], cLon[tl[i]]),
+            map: map.instance,
+            icon: image2
+          });
+          markers.push(marker);
+        }
+
+        marker.addListener('click', function() {
+          console.log("trigger");
+          $('#modal2').openModal();
+          $("#jobHeader").text("Jessica Jones");
+          $("#cPrice").text("$30 / Hour");
+          $("#cIcon").attr("src", "https://media.licdn.com/mpr/mpr/shrink_200_200/p/4/000/184/269/3956ade.jpg");
+        });
+      }
     });
   };
 }
