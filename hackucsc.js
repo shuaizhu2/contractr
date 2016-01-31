@@ -6,7 +6,6 @@ if (Meteor.isClient) {
 
   Meteor.startup(function() {
     navigator.geolocation.getCurrentPosition(function(position) {
-        console.log(position);
         Session.set('lat', position.coords.latitude);
         Session.set('lon', position.coords.longitude);
     });
@@ -17,36 +16,29 @@ if (Meteor.isClient) {
   // counter starts at 0
   Session.setDefault('counter', 0);
 
-  Template.home.helpers({
+  Template.homeA.helpers({
     jobs: function(){
       var query = Session.get('lF');
       if (query){
         var re = new RegExp(query, 'i');
-        console.log(re);
         var j = Jobs.find({'category': {$regex : re}});
       } else {
-        console.log("miss");
         var j = Jobs.find({}).fetch();
       }
       
-      for (var i=0; i<j.length; i++) {
+      /*for (var i=0; i<j.length; i++) {
         j[i].id = "Job" + i;
-      }
-      console.log(j);
+      }*/
       return j;
     }
   });
 
-  Template.home.events({
+  Template.nav.events({
     "click #createJobs": function(){
       Meteor.call("addJob", "Plumbing");
       Meteor.call("addJob", "Painting");
       Meteor.call("addJob", "Moving");
       Meteor.call("addJob", "Cleaning");
-    },
-    "click #openModal": function(){
-      console.log("trigger");
-      $('#modal1').openModal();
     },
     "submit #lookingFor": function(e){
       e.preventDefault();
@@ -59,19 +51,36 @@ if (Meteor.isClient) {
     }
   });
 
-  Template.home.rendered = function(){
+  Template.nav.rendered = function(){
+  };
+
+  Template.homeA.events({
+    "click .openModal": function(e){
+      var i = e.toElement.id;
+      //console.log("trigger");
+      $('#modal1').openModal();
+      //Jobs.find({});
+      $("#jobHeader").text(i);  
+
+      //var map = Session.get('map');
+      /*var myLatLng = {lat: -37.0005, lng: -122.059};
+      var marker = new google.maps.Marker({
+      position: myLatLng,
+      map: map,
+      title: 'Hello World!'
+      });*/
+    }
+  })
+
+  Template.homeA.rendered = function(){
     console.log("Home Rendered");
-    $('#openModal').on('click', function() {
+    /*$('#openModal').on('click', function() {
       console.log("trigger");
       $('#modal1').openModal();
-    });
+    });*/
   };
 
   Template.map.helpers({  
-    geolocationError: function() {
-      var error = Geolocation.error();
-      return error && error.message;
-    },
     mapOptions: function() {
       var latLng = Geolocation.latLng();
       // Initialize the map once we have the latLng.
@@ -84,36 +93,71 @@ if (Meteor.isClient) {
     }
   });
 
-  Template.map.onCreated(function() {  
-    var self = this;
-
+  //Template.map.onCreated(function() { 
+  Template.map.rendered = function() {
+    console.log("Map Rendered");
     GoogleMaps.ready('map', function(map) {
-      var marker;
+      console.log("Google Maps Loaded");
+      var gMap = GoogleMaps.maps.map.instance;
+      var latLng = Geolocation.latLng();
 
-      // Create and move the marker when latLng changes.
-      self.autorun(function() {
-        var latLng = Geolocation.latLng();
-        if (! latLng)
-          return;
+      //gMap.event.trigger(map, "resize");
+      gMap.panTo(latLng);
 
-        // If the marker doesn't yet exist, create it.
-        if (! marker) {
-          marker = new google.maps.Marker({
-            position: new google.maps.LatLng(latLng.lat, latLng.lng),
-            map: map.instance
+      var cLat = ["36.989856","36.994004","36.9923139","36.999589","36.999657","36.982844"];
+      var cLon = ["-122.065964","-122.065835","-122.05","-122.055332","-122.062950","-122.060868"];
+      var pl = [0,2,3];
+      var cl = [1,4,5];
+      var test = [0,1,2,3,4,5];
+
+      var image2 = {
+        url: 'http://i.imgur.com/irtXqys.png', // url
+        scaledSize: new google.maps.Size(50, 50), // scaled size
+        origin: new google.maps.Point(0,0), // origin
+        anchor: new google.maps.Point(0,0) // anchor
+      };
+
+      var image1 = {
+        url: 'http://icons.iconseeker.com/png/fullsize/fruity-apples/seablue-512.png', // url
+        scaledSize: new google.maps.Size(50, 50), // scaled size
+        origin: new google.maps.Point(0,0), // origin
+        anchor: new google.maps.Point(0,0) // anchor
+      };
+
+      var home = new google.maps.Marker({
+        position: new google.maps.LatLng(latLng.lat, latLng.lng),
+        map: map.instance,
+        image: image1
+      });
+
+      var markers = [];
+
+      $(".openModal").click(function(e){
+
+        for(i=0; i<markers.length; i++){
+            markers[i].setMap(null);
+        }
+        console.log(e.toElement.id);
+        var tag = e.toElement.id;
+
+        if (tag == "Plumbing") {
+          var lo = pl;
+        } else {
+          var lo = cl;
+        }
+
+        for (var i=0; i<3; i++){
+            //var lo = test;
+          var marker = new google.maps.Marker({
+            position: new google.maps.LatLng(cLat[lo[i]], cLon[lo[i]]),
+            map: map.instance,
+            image: image2
           });
+          markers.push(marker);
         }
-        // The marker already exists, so we'll just change its position.
-        else {
-          marker.setPosition(latLng);
-        }
-
-        // Center and zoom the map view onto the current position.
-        map.instance.setCenter(marker.getPosition());
-        map.instance.setZoom(MAP_ZOOM);
       });
     });
-  });
+  };
 }
 
 Meteor.methods({

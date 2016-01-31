@@ -8,10 +8,19 @@
 	<link href='https://fonts.googleapis.com/css?family=Roboto+Condensed:400,300italic' rel='stylesheet' type='text/css'>
   <!-- Compiled and minified JavaScript -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
+  <!--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD-B92NveQZnihqVDE9X06bme4gVXMkp28&callback=initMap"
+    async defer></script>-->
 </head>
 <!--<a href="#" class="brand-logo" style="font-family: 'Roboto Condensed', sans-serif;">contractr</a>-->
 
+
 <body>
+  {{> nav}}
+  {{> homeA}}
+  <!-- {{> map}} -->
+</body>
+
+<template name="nav">
   <nav>
    <div class="nav-wrapper">
      <form>
@@ -23,37 +32,32 @@
      </form>
    </div>
  </nav>
-  <!-- Modal Trigger  href="#modal1" -->
-  <a id="openModal" class="waves-effect waves-light btn modal-trigger">Modal</a>
+ <!-- Modal Trigger  href="#	" -->
+  <!--<a id="openModal" class="waves-effect waves-light btn modal-trigger">Modal</a>-->
 
   <!-- Modal Structure -->
   <div id="modal1" class="modal">
     <div class="modal-content">
-      <h4>Modal Header</h4>
-      <p>A bunch of text</p>
+      <h4 id="jobHeader">Modal Header</h4>
+      <p>Job Summary</p>
+      {{> map}}
     </div>
     <div class="modal-footer">
       <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
     </div>
   </div>
+</template>
 
-  {{> home}}
-  {{> map}}
-</body>
-
-<template name="home">
+<template name="homeA">
 	<!-- <button id="createJobs" >Create Jobs</button> -->
 	{{#each jobs}}
-		<a id={{id}} class="waves-effect waves-light btn-large">{{category}}</a>
+		<a id={{category}} class="waves-effect waves-light btn-large openModal">{{category}}</a>
 	{{/each}}
 </template>
 
 <template name="map">
+	<!--<div id="map"></div>-->
   <div class="map-container">
-    {{#unless geolocationError}}
       {{> googleMap name="map" options=mapOptions}}
-    {{else}}
-      Geolocation failed: {{geolocationError}}
-    {{/unless}}
   </div>
 </template>

@@ -7,3 +7,6 @@
 body {
     background-color: #3fb0ac;
 }
+.modal {
+	max-height: 80% !important;
+}
