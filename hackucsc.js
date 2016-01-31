@@ -73,10 +73,14 @@ if (Meteor.isClient) {
         $("#cName").text("Matt Roberts");
         $("#cPrice").text("$55 / Hour");
         $("#cIcon").attr("src", "https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/6/005/043/37f/075a63b.jpg");
-      } else {
+      } else if (i == "Cleaning") {
         $("#cName").text("Julie Shirley");
         $("#cPrice").text("$30 / Hour");
         $("#cIcon").attr("src", "https://media.licdn.com/mpr/mpr/shrink_200_200/AAEAAQAAAAAAAAQhAAAAJGFiYzNlNTM2LWUyZTgtNDY0My05NmE2LTUzYTA1MTdhZTUzYw.jpg");
+      } else {
+        $("#cName").text("Ishan Goyal");
+        $("#cPrice").text("$20 / Hour");
+        $("#cIcon").attr("src", "https://media.licdn.com/mpr/mpr/shrink_200_200/p/7/005/0b8/1cc/09521b2.jpg");
       }
 
           //https://media.licdn.com/media/AAEAAQAAAAAAAANMAAAAJDU2ZDE1MzQwLWE3OWUtNDk2MC05NjQ2LTQ5YjA4Y2RmMDA4Zg.jpg
