@@ -34,12 +34,6 @@ if (Meteor.isClient) {
   });
 
   Template.nav.events({
-    "click #createJobs": function(){
-      Meteor.call("addJob", "Plumbing");
-      Meteor.call("addJob", "Painting");
-      Meteor.call("addJob", "Moving");
-      Meteor.call("addJob", "Cleaning");
-    },
     "submit #lookingFor": function(e){
       e.preventDefault();
       console.log("submit");
@@ -48,13 +42,27 @@ if (Meteor.isClient) {
       var lf = $('#lookingFor').val();
       console.log(lf);
       return Session.set('lF', lf);
-    }
+    },
+    "click #cAgree": function(){
+      //console.log("hey");
+      Materialize.toast('I am a toast!', 4000)
+    },
   });
 
   Template.nav.rendered = function(){
   };
 
   Template.homeA.events({
+    "click #createJobs": function(){
+      Meteor.call("resetJobs");
+      Meteor.call("addJob", "Plumbing");
+      Meteor.call("addJob", "Electrician");
+      Meteor.call("addJob", "Babysitter");
+      Meteor.call("addJob", "Carpenter");
+      Meteor.call("addJob", "Gardener");
+      Meteor.call("addJob", "Handyman");
+      Meteor.call("addJob", "Locksmith");
+    },
     "click .openModal": function(e){
       var i = e.toElement.id;
       //console.log("trigger");
@@ -73,7 +81,7 @@ if (Meteor.isClient) {
         $("#cName").text("Matt Roberts");
         $("#cPrice").text("$55 / Hour");
         $("#cIcon").attr("src", "https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/6/005/043/37f/075a63b.jpg");
-      } else if (i == "Cleaning") {
+      } else if (i == "Babysitter") {
         $("#cName").text("Julie Shirley");
         $("#cPrice").text("$30 / Hour");
         $("#cIcon").attr("src", "https://media.licdn.com/mpr/mpr/shrink_200_200/AAEAAQAAAAAAAAQhAAAAJGFiYzNlNTM2LWUyZTgtNDY0My05NmE2LTUzYTA1MTdhZTUzYw.jpg");
@@ -157,7 +165,6 @@ if (Meteor.isClient) {
         console.log(i);
         //for (var i=0; i<3; i++){
             //var lo = test;
-          console.log(image2);
           var marker = new google.maps.Marker({
             position: new google.maps.LatLng(cLat[i], cLon[i]),
             map: map.instance,
@@ -178,6 +185,9 @@ if (Meteor.isClient) {
 
 Meteor.methods({
   //Individual Jobs, Times, description, contractor, contractee
+  resetJobs: function(){
+    Jobs.remove({});
+  },
   addJob: function(category) {
     Jobs.insert({
       category: category,
