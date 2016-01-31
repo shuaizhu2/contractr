@@ -42,11 +42,11 @@ if (Meteor.isClient) {
       var lf = $('#lookingFor').val();
       console.log(lf);
       return Session.set('lF', lf);
-    },
+    }/*,
     "click #cAgree": function(){
       //console.log("hey");
-      Materialize.toast('I am a toast!', 4000)
-    },
+      Materialize.toast('I am a toast!', 4000);
+    },*/
   });
 
   Template.nav.rendered = function(){
@@ -103,10 +103,11 @@ if (Meteor.isClient) {
 
   Template.homeA.rendered = function(){
     console.log("Home Rendered");
-    /*$('#openModal').on('click', function() {
-      console.log("trigger");
-      $('#modal1').openModal();
-    });*/
+    $('#cAgree').on('click', function() {
+      var name = $("#cName").text();
+      var strung = name + " has accepted the job";
+      Materialize.toast(strung, 4000);
+    });
   };
 
   Template.map.helpers({  
